@@ -1,0 +1,29 @@
+
+[project]
+name = "discord-bots"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Sierrra"}
+]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "requests (>=2.32.5,<3.0.0)",
+    "bs4 (>=0.0.2,<0.0.3)",
+    "discord (>=2.3.2,<3.0.0)",
+    "python-dateutil (>=2.9.0.post0,<3.0.0)"
+]
+
+[dependency-groups]
+dev = [
+    "black (>=25.9.0,<26.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+package-mode = false
