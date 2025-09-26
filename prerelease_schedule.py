@@ -56,7 +56,8 @@ def scrape_mg():
                                 "text": text,
                                 "time_pulled": current_time.strftime("%B %d, %Y at %H:%M")
                             })
-                
+
+                            image_source = "https://www.catster.com/wp-content/uploads/2024/02/black-and-white-cat-resting_Vladimir-Gudvin-Shutterstock.jpg"
                             figure_container = p.find_previous_sibling("figure")
                             if figure_container:
                                 image_container = figure_container.find("img")
@@ -75,7 +76,7 @@ def scrape_mg():
 
     except Exception as e:
         print(f"Error 1: {e}")
-        
+    
     return [data,image_source]
 
 # Save Data 
@@ -93,14 +94,15 @@ def save_scraped_data(data,filename_json="prev_events.json"):
 
 
 def discord_message(content):
-    try:
-        data = {"content":content}
-        if prev_event_src != content:
-            post_response = requests.post(webhook_url,json=data)
-        else:
-            print("No new event")
-    except Exception as e:
-        print(f"Discord message not sending. Error: {e}")
+    if content:
+        try:
+            data = {"content":content}
+            if prev_event_src != content:
+                post_response = requests.post(webhook_url,json=data)
+            else:
+                print("No new event")
+        except Exception as e:
+            print(f"Discord message not sending. Error: {e}")
 
 
 
