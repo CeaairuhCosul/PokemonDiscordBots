@@ -68,6 +68,8 @@ def scrape_mg():
 
                             else:
                                 print(f"No figure found")
+                        else:
+                            return ["error","flag"]
 
         prerelease_data["raw_text"] = raw_event_text
         prerelease_data['image'] = event_image
@@ -94,26 +96,28 @@ def save_scraped_data(data,filename_json="prev_events.json"):
 
 
 def discord_message(content):
-    if content:
-        try:
-            data = {"content":content}
-            if prev_event_src != content:
-                post_response = requests.post(webhook_url,json=data)
-            else:
-                print("No new event")
-        except Exception as e:
-            print(f"Discord message not sending. Error: {e}")
+    try:
+        data = {"content":content}
+        if prev_event_src != content:
+            post_response = requests.post(webhook_url,json=data)
+        else:
+            print("No new event")
+    except Exception as e:
+        print(f"Discord message not sending. Error: {e}")
 
 
 
 def main() -> None:
     [data,to_post] = scrape_mg()
-    discord_message(to_post)
+    if data != "error":
+        discord_message(to_post)
 
-    if data:
-        print(f"Processing")
-        save_scraped_data(data)
+        if data:
+            print(f"Processing")
+            save_scraped_data(data)
+        else:
+            print(f"No Data :(")
     else:
-        print(f"No Data :(")
+        print("No data found or saved.")
 
 main()
