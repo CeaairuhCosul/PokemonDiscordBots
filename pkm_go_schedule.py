@@ -209,15 +209,16 @@ def send_message(filename):
     if f_fields:
         future_events["fields"] = f_fields
         embeds.append(future_events)
-
     if embeds:
         json_send["embeds"] = embeds
-
         try:
             photo_files = {}
             count = 0
             for pokemon in current_pokemon_raids:
+                print(pokemon)
                 file_path = grab_sprite(pokemon)
+                print(file_path)
+                print(image_file_name)
                 photo_files[f"files[{count}]"] = (image_file_name[count],open(file_path, "rb"))
                 count += 1
 
@@ -235,7 +236,9 @@ def send_message(filename):
 
 def main() -> None:
     data = scrape_website()
-    send_message(data)
+    if data:
+        send_message(data)
+        print("Message Sent")
 
     if data:
         print(f"Processing")

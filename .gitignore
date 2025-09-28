@@ -1,6 +1,7 @@
 pokemon_go_events.json
 prev_events.json
 text.json
+.vscode
 
 # Created by https://www.toptal.com/developers/gitignore/api/python
 # Edit at https://www.toptal.com/developers/gitignore?templates=python
