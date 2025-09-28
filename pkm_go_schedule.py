@@ -165,8 +165,8 @@ def send_message(filename):
 
     # Quick Current Raids
     current_pokemon_raids = filename["current_raids"]["current_raids"] 
-    for pokemon in current_pokemon_raids:
-        if pokemon not in prev_raids:
+    if any(poke not in prev_raids for poke in current_pokemon_raids):
+        for pokemon in current_pokemon_raids:
             current_image_file_name = str(uuid.uuid4()) + ".png"
             image_file_name.append(current_image_file_name)
             print(current_image_file_name)
@@ -174,7 +174,8 @@ def send_message(filename):
                 "title": pokemon,
                 "author": {"name": "Current Active Raids"},
                 "thumbnail": {"url": f"attachment://{current_image_file_name}"}
-            })
+        })
+
 
     #Current Events
     current_events = {
@@ -214,13 +215,14 @@ def send_message(filename):
         try:
             photo_files = {}
             count = 0
-            for pokemon in current_pokemon_raids:
-                print(pokemon)
-                file_path = grab_sprite(pokemon)
-                print(file_path)
-                print(image_file_name)
-                photo_files[f"files[{count}]"] = (image_file_name[count],open(file_path, "rb"))
-                count += 1
+            if image_file_name:
+                for pokemon in current_pokemon_raids:
+                    print(pokemon)
+                    file_path = grab_sprite(pokemon)
+                    print(file_path)
+                    print(image_file_name)
+                    photo_files[f"files[{count}]"] = (image_file_name[count],open(file_path, "rb"))
+                    count += 1
 
             post_response = requests.post(
                 webhook_url,
